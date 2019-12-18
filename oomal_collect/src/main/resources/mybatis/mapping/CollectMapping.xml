@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xmu.good.oomall.mapper.CollectMapper">
+
+    <!--
+    <resultMap id="collectMap" type="CollectItem" autoMapping="true">
+        <id property="id" column="id"/>
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="good_id" jdbcType="BIGINT" property="goodId"/>
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified"/>
+    </resultMap>
+    -->
+
+    <!--
+    <update id="alter">
+        alter table student AUTO_INCREMENT=1;
+    </update>
+    -->
+
+    <select id="findCollectItemByUserId" resultType="CollectItemPo">
+        select *
+        from oomall_collect_item
+        where user_id = #{userId}
+        order by gmt_modified desc
+        limit ${(page-1)*limit},${limit}
+    </select>
+
+    <select id="findCollectItemByGoodsId" resultType="CollectItemPo">
+        select *
+        from  oomall_collect_item
+        where goods_id=#{goodsId}
+    </select>
+    
+    <insert id="addCollectItem" parameterType="CollectItemPo" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into oomall_collect_item(user_id,goods_id,gmt_create,gmt_modified)
+        value (#{userId},#{goodsId},#{gmtCreate,jdbcType=TIMESTAMP},#{gmtModified,jdbcType=TIMESTAMP})
+    </insert>
+
+    <delete id="deleteCollectItem" >
+        delete from oomall_collect_item
+        where id=#{id}
+    </delete>
+
+
+
+</mapper>
